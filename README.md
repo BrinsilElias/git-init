@@ -1,27 +1,35 @@
-**💛 You can help the author become a full-time open-source maintainer by [sponsoring him on GitHub](https://github.com/sponsors/egoist).**
+# ⚠️ Still in development !!!
 
----
+## git-init
+A tiny and simple cli tool to initialize a git repository and more ... 🪴
 
-# my-ts-lib
+## Usage
 
-[![npm version](https://badgen.net/npm/v/my-ts-lib)](https://npm.im/my-ts-lib) [![npm downloads](https://badgen.net/npm/dm/my-ts-lib)](https://npm.im/my-ts-lib)
-
-## Using this template
-
-- Search `my-ts-lib` and replace it with your custom package name.
-- Search `egoist` and replace it with your name.
-
-Features:
-
-- Package manager [pnpm](https://pnpm.js.org/), safe and fast
-- Release with [semantic-release](https://npm.im/semantic-release)
-- Bundle with [tsup](https://github.com/egoist/tsup)
-- Test with [vitest](https://vitest.dev)
-
-To skip CI (GitHub action), add `skip-ci` to commit message. To skip release, add `skip-release` to commit message.
-
-## Install
+You will need to have [Node.js](https://nodejs.org/en/) installed on your machine.
 
 ```bash
-npm i my-ts-lib
+npx git-init
 ```
+
+Alternatively, you can install it globally:
+
+```bash
+npm i -g git-init
+```
+
+And then run:
+
+```bash
+git-init
+```
+
+## Special Thanks
+
+* [Oleksii](https://www.github.com/alexeyraspopov) for ([picocolors](https://www.github.com/alexeyraspopov/picocolors)).
+* [Sindre Sorhus](https://www.github.com/sindresorhus) for ([ora](https://www.github.com/sindresorhus/ora)).
+* [Terkel](https://www.github.com/terkelg) for ([prompts](https://www.github.com/terkelg/prompts)).
+* [Egoist](https://www.github.com/egoist) for ([tsup](https://www.github.com/egoist/tsup))
+
+I hope you find this tool useful! 🌟
+
+Made with ❤️ by [Brinsil](https://www.github.com/BrinsilElias).
