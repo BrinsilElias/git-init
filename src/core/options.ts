@@ -1,11 +1,20 @@
 import type { PromptObject } from "prompts"
 import pc from "picocolors"
 
-const projectNamePrompt: PromptObject = {
-  type: "text",
-  name: "projectName",
-  message: pc.bold("What is the name of the project?"),
-  validate: (value) => (value ? true : pc.red("Project name cannot be empty")),
+const projectDirectory: PromptObject = {
+  type: "select",
+  name: "projectDirectory",
+  message: pc.bold("Initialize git in:"),
+  choices: [
+    { title: "Current directory", value: "currentDir" },
+    { title: "Specify directory", value: "newDir" },
+  ],
+}
+
+const speccifyDirectoryPath: PromptObject = {
+  type: (prev) => (prev === "newDir" ? "text" : null),
+  name: "specifyDirectoryPath",
+  message: pc.bold("Specify the directory path"),
 }
 
 const authorNamePrompt: PromptObject = {
@@ -52,7 +61,8 @@ const remoteRepoUrlPrompt: PromptObject = {
 }
 
 export const promptArray: Array<PromptObject> = [
-  projectNamePrompt,
+  projectDirectory,
+  speccifyDirectoryPath,
   authorNamePrompt,
   addGitIgnorePrompt,
   licensePrompt,

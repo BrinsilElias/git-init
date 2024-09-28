@@ -9,15 +9,13 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.js",
-  "exports": "./dist/index.js",
+  "main": "./dist/cli.js",
+  "exports": "./dist/cli.js",
   "bin": {
-    "git-init": "./dist/index.js"
+    "git-init": "./dist/cli.js"
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
-    "build-fast": "tsup src/index.ts --format esm",
-    "build": "pnpm run build-fast -- --dts-resolve",
+    "build": "tsup src/cli.ts --format esm",
     "test": "vitest run",
     "prepublishOnly": "pnpm run build"
   },
