@@ -1,28 +1,111 @@
-import prompts from "prompts"
-import ora from "ora"
-import { createFolder, initializeGit } from "./utils"
-import { promptArray } from "./options"
+import pc from "picocolors"
+import initGitPrompts from "./options"
+import * as constants from "./constants"
+import { intro, log, outro, spinner } from "@clack/prompts"
+import {
+  createDirectory,
+  makeApiRequest,
+  createFiles,
+  initializeGit,
+  setBranchName,
+  setRemoteUrl,
+  _cancel as cancel,
+} from "./utils"
 
 const init = async (): Promise<void> => {
-  const userResponses = await prompts(promptArray)
-  const spinner = ora("Creating project\n").start()
+  console.clear()
+  intro(pc.inverse("  Initialize a new git repository  "))
+  const userResponses = await initGitPrompts()
 
-  /**
-   * Create the project directory and initialize the git
-   * Add a .gitignore file if the user wants
-   * Add a license file if the user wants
-   * Add a remote repository if the user wants
-   */
+  const _spinner = spinner()
+  _spinner.start("Initializing git repository...")
 
-  if (userResponses.projectDirectory === "currentDir") {
-    await initializeGit(".")
+  // biome-ignore format: No need to format this line
+  const projectDir =
+    userResponses.projectDirectory === "currentDir"
+    ? "."
+    : userResponses?.specifyDirectoryPath
+
+  if (projectDir === ".") {
+    const initGit = initializeGit(projectDir)
+    if (initGit.error) {
+      _spinner.stop(pc.bold(pc.redBright(initGit.message)))
+      log.message()
+      cancel("  Aborting git initialization  ")
+    }
+  } else {
+    // @ts-expect-error
+    await createDirectory(projectDir)
+      .then(() => {
+        const initGit = initializeGit(projectDir)
+        if (initGit.error) {
+          _spinner.stop(pc.bold(pc.redBright(initGit.message)))
+          log.message()
+          cancel("  Aborting git initialization  ")
+        }
+      })
+      .catch(() => {
+        _spinner.stop(pc.red("Failed to create directory"))
+        cancel("  Aborting git initialization  ")
+      })
   }
 
-  if (userResponses.projectDirectory === "newDir") {
-    await createFolder(userResponses.specifyDirectoryPath)
+  if (userResponses.chooseLicense) {
+    const license = await makeApiRequest(
+      `${constants.LISCENSES_API_URL}/${userResponses.chooseLicense}`,
+      "GET",
+    ).catch(() => {
+      _spinner.stop(pc.bold(pc.redBright("Failed to fetch license")))
+      cancel("  Aborting git initialization  ")
+    })
+    await createFiles({ name: "LICENSE", path: `${projectDir}`, content: license?.body }).catch(
+      () => {
+        _spinner.stop(pc.bold(pc.redBright("Failed to create LICENSE file")))
+        cancel("  Aborting git initialization  ")
+      },
+    )
   }
 
-  spinner.stop()
+  if (userResponses.chooseGitignore) {
+    const gitignore = await makeApiRequest(
+      `${constants.GITIGNORE_API_URL}/${userResponses.chooseGitignore}`,
+      "GET",
+    ).catch(() => {
+      _spinner.stop(pc.bold(pc.redBright("Failed to fetch gitignore template")))
+      cancel("  Aborting git initialization  ")
+    })
+    await createFiles({
+      name: ".gitignore",
+      path: `${projectDir}`,
+      content: gitignore?.source,
+    }).catch(() => {
+      _spinner.stop(pc.bold(pc.redBright("Failed to create .gitignore file")))
+      cancel("  Aborting git initialization  ")
+    })
+  }
+
+  const isBranchSet = setBranchName(userResponses.mainBranchName, {
+    cwd: projectDir,
+    stdio: "ignore",
+  })
+  if (isBranchSet.error) {
+    _spinner.stop(pc.bold(pc.redBright(isBranchSet.message)))
+    cancel("  Aborting git initialization  ")
+  }
+
+  if (userResponses.remoteRepoUrl) {
+    const isRemoteUrlSet = setRemoteUrl(userResponses.remoteRepoUrl, {
+      cwd: projectDir,
+      stdio: "ignore",
+    })
+    if (isRemoteUrlSet.error) {
+      _spinner.stop(pc.bold(pc.redBright(isRemoteUrlSet.message)))
+      cancel("  Aborting git initialization  ")
+    }
+  }
+
+  _spinner.stop(pc.bgGreenBright("  Git initialized successfully  "))
+  outro(`Checkout the repo? ${pc.underline(pc.cyan("https://github.com/BrinsilElias/git-init"))}`)
 }
 
 export default init

@@ -26,8 +26,7 @@ git-init
 ## Special Thanks
 
 * [Oleksii](https://www.github.com/alexeyraspopov) for ([picocolors](https://www.github.com/alexeyraspopov/picocolors)).
-* [Sindre Sorhus](https://www.github.com/sindresorhus) for ([ora](https://www.github.com/sindresorhus/ora)).
-* [Terkel](https://www.github.com/terkelg) for ([prompts](https://www.github.com/terkelg/prompts)).
+* [bombshell-dev](https://github.com/bombshell-dev) for ([clack](https://github.com/bombshell-dev/clack)).
 * [Egoist](https://www.github.com/egoist) for ([tsup](https://www.github.com/egoist/tsup))
 
 I hope you find this tool useful! 🌟
