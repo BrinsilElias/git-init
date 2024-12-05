@@ -1,9 +1,25 @@
-# ⚠️ Still in development !!!
+<div align="center">
+    <a href="https://github.com/BrinsilElias/git-init">
+        <img src="./assets/git-init.png" alt="Logo" width="120" height="45">
+    </a>
+    <h2 align="center">git-init</h2>
+    <p align="center">
+        A tiny and simple cli tool to initialize a git repository and more ... 🪴
+        <br />
+        <a href="https://github.com/BrinsilElias/git-init/issues">Report Bug</a>
+        |
+        <a href="https://github.com/BrinsilElias/git-init/issues">Request Feature</a>
+    </p>
+</div>
 
-## git-init
-A tiny and simple cli tool to initialize a git repository and more ... 🪴
+## 🚀 Features
+![git-init demo](./assets/demo.gif)
 
-## Usage
+- Initialize git repo 🚀
+- Include License and gitignore templates ⚙️
+- Add remote repository url 🌐
+
+## 📦 Usage
 
 You will need to have [Node.js](https://nodejs.org/en/) installed on your machine.
 
@@ -23,7 +39,7 @@ And then run:
 git-init
 ```
 
-## Special Thanks
+## 🎊 Special Thanks
 
 * [Oleksii](https://www.github.com/alexeyraspopov) for ([picocolors](https://www.github.com/alexeyraspopov/picocolors)).
 * [bombshell-dev](https://github.com/bombshell-dev) for ([clack](https://github.com/bombshell-dev/clack)).
