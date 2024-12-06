@@ -28,5 +28,5 @@
     "@clack/prompts": "^0.8.0",
     "picocolors": "^1.1.0"
   },
-  "packageManager": "pnpm@9.14.2"
+  "packageManager": "pnpm@9.15.0"
 }
